@@ -19,7 +19,25 @@ void feature1(FILE *fin, FILE *fout){
 
 }
 
-void feature2(FILE *fin, FILE *fout){ }
+void feature2(FILE *fin, FILE *fout){ 
+    char buffer2[256];
+    char buffinv[256];
+    char *status2 =  NULL;
+    int cont2 = 0; //Para controlar el ciclo que se haga solo para leer la primera linea del archivo
+    do{
+        status2 = fgets(buffer2, sizeof(buffer2),fin);
+        cont2++;
+        if(status2 != NULL){
+            for(int i = strlen(buffer2); i >= 0; i--){
+                if(buffer2[i] != 0 || buffer2[i] != 10) //evitar el 0 y el salto de linea: 00 y 10 en ASCII
+                buffinv[strlen(buffer2)-i-2] = buffer2[i];
+                //printf("Array inverso en posicion %ld: %d\n", (strlen(buffer2) - i), buffer2[i]);
+            }
+            fputs(buffinv, fout);
+        }
+    }while (cont2 <= 0);
+    printf("\n");
+}
 
 void feature3(FILE *fin, FILE *fout){ }
 
