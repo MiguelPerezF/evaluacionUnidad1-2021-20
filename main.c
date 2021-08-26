@@ -23,6 +23,7 @@ int main(int argc, char *argv[]){
 
     feature1(fin, fout);
     feature2(fin, fout);
+    feature3(fin, fout);
 
     return EXIT_SUCCESS;
 }
