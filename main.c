@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
         return(EXIT_FAILURE);
     }
 
-    FILE *fout = fopen(argv[2],"a+");
+    FILE *fout = fopen(argv[2],"r+");
     if (fout == NULL){
         perror("Falla en la apertura del archivo de salida: ");
         return(EXIT_FAILURE);
@@ -34,13 +34,12 @@ int main(int argc, char *argv[]){
 
     struct Obj_t p1;
     feature6(fin, &p1);
-    p1.nombre = "JUAN FRANCO";
-    printf("main Nombre: %s\n", p1.nombre);
-    printf("main Cedula: %d\n", p1.cedula);
+    //printf("main Nombre: %s\n", p1.nombre);
+    //printf("main Cedula: %d\n", p1.cedula);
 
     feature7(fout, &p1);
 
-    struct _courseInfo_t c1;
+    /*struct _courseInfo_t c1;
     struct _courseInfo_t *pstr = &c1;
     int length8 = 0;
     feature8(fin, &pstr, &length8);
@@ -50,7 +49,7 @@ int main(int argc, char *argv[]){
         printf("Nombre curso: %s\n", pstr[i].name);
         printf("Creditos curso: %d\n", pstr[i].credits);
         printf("Nota curso: %.2f\n", pstr[i].grade);
-    }
+    }*/
     
 
     return(EXIT_SUCCESS);

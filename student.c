@@ -3,6 +3,8 @@
 #include <string.h>
 #include <ctype.h>
 
+char *create_array(int);
+void destroy_array(char *);
 
 void feature1(FILE *fin, FILE *fout){
 
@@ -17,6 +19,7 @@ void feature1(FILE *fin, FILE *fout){
             fputs(buffer, fout);
         }
     }while (cont <= 0);
+    //destroy_array(buffer);
     printf("\n");
 
 }
@@ -60,7 +63,7 @@ void feature3(FILE *fin, FILE *fout){
             if (token == NULL)
             {
                 printf("No hay elementos en el arreglo");
-                return(EXIT_FAILURE);
+                return EXIT_FAILURE;
             }
             suma+=atoi(token); //atoi es para convertir a entero el char que tiene token
             while (token != NULL)
@@ -75,7 +78,6 @@ void feature3(FILE *fin, FILE *fout){
             fprintf(fout, "%d", suma);
         }                  
     }while (cont3 <= 0);
-    return(EXIT_SUCCESS);
 }
 
 void feature4(FILE *fin, int **parr, int *length, char **op){ 
@@ -97,7 +99,7 @@ void feature4(FILE *fin, int **parr, int *length, char **op){
             if (token == NULL)
             {
                 printf("No hay elementos en el arreglo");
-                return(EXIT_FAILURE);
+                return EXIT_FAILURE;
             }
             
             while (token != NULL)
@@ -148,7 +150,6 @@ void feature4(FILE *fin, int **parr, int *length, char **op){
             }*/
         }                  
     }while (cont4 <= 0);
-    return(EXIT_SUCCESS);
 }
 
 void feature5(FILE *fout, int *parr, int length, char *op){ 
@@ -202,34 +203,26 @@ void feature5(FILE *fout, int *parr, int length, char *op){
 }
 
 void feature6(FILE *fin, struct Obj_t *pobj){ 
-    char buffer6[128];
+
+    char *buffer6[128];
+    fgets(buffer6, sizeof(buffer6),fin);
     char *token;
-    char *status6 =  NULL;
-    int cont6 = 0; //Para controlar el ciclo que se haga solo para leer la primera linea del archivo
-    do{
-        status6 = fgets(buffer6, sizeof(buffer6),fin);
-        cont6++;
-        if(status6 != NULL){
-            token = strtok(buffer6, ","); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
-            if (token == NULL)
-            {
-                printf("No hay elementos en el arreglo");
-                return(EXIT_FAILURE);
-            }
-            pobj->nombre = token;
-            while (token != NULL)
-            {
-                token = strtok(NULL, ",");
-                if (token != NULL)
-                {
-                    pobj->cedula = atoi(token);
-                }    
-            }
-            printf("f6 Nombre: %s\n", pobj->nombre);
-            printf("f6 Cedula: %d\n", pobj->cedula);
-        }                  
-    }while (cont6 <= 0);
-    return(EXIT_SUCCESS);
+    token = strtok(buffer6, ","); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
+    /*if (token == NULL)
+    {
+        printf("No hay elementos en el arreglo");
+        return EXIT_FAILURE;
+    }*/
+    char *nombre = token;
+    char *token2;
+    token2 = strtok(NULL,"");
+    int ced = atoi(token2);
+            
+    pobj->nombre = nombre;
+    pobj->cedula = ced;
+
+    //printf("f6 Nombre: %s\n", pobj->nombre);
+    //printf("f6 Cedula: %d\n", pobj->cedula);                     
 }
 
 void feature7(FILE *fout, struct Obj_t *pobj){
@@ -257,7 +250,7 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj,int *length){
             if (token == NULL)
             {
                 printf("No hay elementos en el arreglo");
-                return(EXIT_FAILURE);
+                return EXIT_FAILURE;
             }
             length = atoi(token);
             nrocursos=length;
@@ -274,7 +267,7 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj,int *length){
                 if (token2 == NULL)
                 {
                     printf("No hay elementos en el arreglo");
-                    return(EXIT_FAILURE);
+                    return EXIT_FAILURE;
                 }
                 namecurso = token2;
                 *cursos[i].name = namecurso;
@@ -311,4 +304,10 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj,int *length){
 
 void feature9(FILE *fout, struct _courseInfo_t *pobj,int length){ }
 
+char *create_array(int size){
+    return (char * ) malloc(sizeof(int)* size );
+}
+void destroy_array(char *this){
+    free(this);
+}
 
