@@ -32,16 +32,12 @@ void feature2(FILE *fin, FILE *fout){
         cont2++;
         if(status2 != NULL){
             for(int i = strlen(buffer2); i >= 0; i--){
-                if (buffer2[i] == 10)
-                {
-                    salto = buffer2[i]; //guardo el '10' del salto en ASCII en la variable salto
-                }
                 if(buffer2[i] != 0 || buffer2[i] != 10) //evitar el 0 y el salto de linea: 00 y 10 en ASCII
                 buffinv[strlen(buffer2)-i-2] = buffer2[i]; //-2 para evitar el 0 del fin de la cadena y el salto de linea
                 //printf("Array inverso en posicion %ld: %d\n", (strlen(buffer2) - i), buffer2[i]);
                 if (i == strlen(buffer2)-1)
                 {
-                    buffinv[i] = buffer2[i]; //agrego el salto de lìnea en el arreglo para que feature3 escriba en la siguiente linea
+                    buffinv[i] = salto; //agrego el salto de lìnea en el arreglo para que feature3 escriba en la siguiente linea
                 }
             }
             fputs(buffinv, fout);
@@ -64,7 +60,7 @@ void feature3(FILE *fin, FILE *fout){
             if (token == NULL)
             {
                 printf("No hay elementos en el arreglo");
-                return (EXIT_FAILURE);
+                return(EXIT_FAILURE);
             }
             suma+=atoi(token); //atoi es para convertir a entero el char que tiene token
             while (token != NULL)
@@ -79,10 +75,86 @@ void feature3(FILE *fin, FILE *fout){
             fprintf(fout, "%d", suma);
         }                  
     }while (cont3 <= 0);
-    printf("\n");
+    return(EXIT_SUCCESS);
 }
 
-void feature4(FILE *fin, int **parr, int *length, char **op){ }
+void feature4(FILE *fin, int **parr, int *length, char **op){ 
+    char buffer4[128];
+    char *token;
+    char *status4 =  NULL;
+    int arrint[128];
+    char opaux[32];
+    int cont4 = 0; //Para controlar el ciclo que se haga solo para leer la primera linea del archivo
+    int contop = 0;
+    int contint = 0;
+    do{
+        status4 = fgets(buffer4, sizeof(buffer4),fin);
+        //printf("buffer: %s\n", buffer4);
+        
+        cont4++;
+        if(status4 != NULL){
+            token = strtok(buffer4, " "); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
+            if (token == NULL)
+            {
+                printf("No hay elementos en el arreglo");
+                return(EXIT_FAILURE);
+            }
+            
+            while (token != NULL)
+            {
+                if (token != NULL)
+                {
+                    arrint[contint] = atoi(token); //Agregarà todos menos la operacion porque no puede convertirla a entero
+                    //printf("arraux(%d) token: %s\n", i, token);
+                    //printf("arrint(%d) arreglo: %d\n", contint, arrint[contint]);
+                }
+                token = strtok(NULL, " ");
+                contint++; 
+            }
+
+            for (int i = 0; i < ((sizeof(buffer4)/sizeof(buffer4[0]))); i++) //Recorre las posiciones con la operacion
+            {
+                if (buffer4[i] > 64 && buffer4[i] < 123)
+                {
+                    opaux[contop] = buffer4[i];
+                    contop++;
+                }
+            }
+
+            /*for (int i = 0; i < sizeof(arrint)/sizeof(arrint[0]); i++)
+            {
+                parr[i] = arrint[i];
+            }*/
+            *length=contint-1; //-1 para evitar el 0 que pone por la operacion siendo el arreglo solo de enteros
+            *parr = arrint;
+            *op = opaux;
+
+            printf("Parr\n");
+            for (int j = 0; j < contint-1; j++)
+            {
+                printf("parr(%d): %d\n", j, *(*parr+j));
+            }
+
+            printf("Op\n");
+            for (int j = 0; j < 3; j++)
+            {
+                printf("op(%d): %d\n", j, *(*op+j));
+            }
+
+            printf("Arreglo con los nros\n");
+            for (int j = 0; j < contint-1; j++)
+            {
+                printf("arrint(%d): %d\n", j, arrint[j]);
+            }
+            printf("Arreglo con la operacion\n");
+            for (int j = 0; j < 3; j++)
+            {
+                printf("op(%d): %d\n", j, opaux[j]);
+            }
+        }                  
+    }while (cont4 <= 0);
+    return(EXIT_SUCCESS);
+}
 
 void feature5(FILE *fout, int *parr, int length, char *op){ }
 

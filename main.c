@@ -25,5 +25,11 @@ int main(int argc, char *argv[]){
     feature2(fin, fout);
     feature3(fin, fout);
 
-    return EXIT_SUCCESS;
+    int len = 0;
+    int *parr = NULL;
+    char *op = NULL;
+
+    feature4(fin, &parr, &len, &op);
+
+    return(EXIT_SUCCESS);
 }
