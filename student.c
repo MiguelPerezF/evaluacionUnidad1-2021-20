@@ -201,9 +201,43 @@ void feature5(FILE *fout, int *parr, int length, char *op){
     fprintf(fout, "%d", resultado);   
 }
 
-void feature6(FILE *fin, struct Obj_t *pobj){ }
+void feature6(FILE *fin, struct Obj_t *pobj){ 
+    char buffer6[128];
+    char *token;
+    char *status6 =  NULL;
+    int cont6 = 0; //Para controlar el ciclo que se haga solo para leer la primera linea del archivo
+    do{
+        status6 = fgets(buffer6, sizeof(buffer6),fin);
+        cont6++;
+        if(status6 != NULL){
+            token = strtok(buffer6, ","); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
+            if (token == NULL)
+            {
+                printf("No hay elementos en el arreglo");
+                return(EXIT_FAILURE);
+            }
+            pobj->nombre = token;
+            while (token != NULL)
+            {
+                token = strtok(NULL, ",");
+                if (token != NULL)
+                {
+                    pobj->cedula = atoi(token);
+                }    
+            }
+            printf("f6 Nombre: %s\n", pobj->nombre);
+            printf("f6 Cedula: %d\n", pobj->cedula);
+        }                  
+    }while (cont6 <= 0);
+    return(EXIT_SUCCESS);
+}
 
-void feature7(FILE *fout, struct Obj_t *pobj){ }
+void feature7(FILE *fout, struct Obj_t *pobj){
+    fprintf(fout, "\n");
+    fprintf(fout,"%d",pobj->cedula);
+    fprintf(fout, ", ");
+    fprintf(fout,"%s",pobj->nombre);
+}
 
 void feature8(FILE *fin, struct _courseInfo_t **pobj,int *length){ }
 

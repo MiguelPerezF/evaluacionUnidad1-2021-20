@@ -32,5 +32,13 @@ int main(int argc, char *argv[]){
     feature4(fin, &parr, &length, &op);
     feature5(fout, parr, length, op);
 
+    struct Obj_t p1;
+    feature6(fin, &p1);
+    p1.nombre = "JUAN FRANCO";
+    printf("main Nombre: %s\n", p1.nombre);
+    printf("main Cedula: %d\n", p1.cedula);
+
+    feature7(fout, &p1);
+
     return(EXIT_SUCCESS);
 }
