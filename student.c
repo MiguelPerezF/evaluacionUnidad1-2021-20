@@ -239,7 +239,75 @@ void feature7(FILE *fout, struct Obj_t *pobj){
     fprintf(fout,"%s",pobj->nombre);
 }
 
-void feature8(FILE *fin, struct _courseInfo_t **pobj,int *length){ }
+void feature8(FILE *fin, struct _courseInfo_t **pobj,int *length){ 
+    char buffer8[64];
+    char *status8 =  NULL;
+    char *token;
+    char *token2;
+    int nrocursos = 0;
+    char namecurso;
+    int cont8 = 0; //Para controlar el ciclo que se haga solo para leer la primera linea del archivo
+    char datos[32];
+    do{
+        status8 = fgets(buffer8, sizeof(buffer8),fin);
+        cont8++;
+        if(status8 != NULL){
+            //printf("f8: %s",buffer8);
+            token = strtok(buffer8, ""); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
+            if (token == NULL)
+            {
+                printf("No hay elementos en el arreglo");
+                return(EXIT_FAILURE);
+            }
+            length = atoi(token);
+            nrocursos=length;
+            //printf("Length conseguido: %d", length);
+
+            struct _courseInfo_t cursos[nrocursos];
+            int control = 0;
+            for (int i = 1; i <= nrocursos; i++)
+            {
+                printf("Ingrese el curso %d: curso, creditos, nota:\n",i);
+                scanf("%s", datos);
+                printf("Datos: %s\n", datos);
+                token2 = strtok(datos, ","); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
+                if (token2 == NULL)
+                {
+                    printf("No hay elementos en el arreglo");
+                    return(EXIT_FAILURE);
+                }
+                namecurso = token2;
+                *cursos[i].name = namecurso;
+                printf("Nombre: %s\n", cursos[i].name);
+                //printf("Curso: %s\n", token2);
+                while (token2 != NULL)
+                {
+                    if (token2 != NULL)
+                    {
+                        if (control == 0)
+                        {
+                            cursos[i].credits = atoi(token2);
+                            printf("Creditos: %d\n", cursos[i].credits);
+                            //printf("Creditos: %d\n", atoi(token2));
+                            control++;
+                        }
+                        else{
+                            cursos[i].grade = atof(token2);
+                            printf("Nota: %.2f\n", cursos[i].grade);
+                            //printf("Nota: %.2f\n", atof(token2));
+                            control=0;
+                        }
+                        
+                        //pobj->cedula = atoi(token);
+                    }
+                    token2 = strtok(NULL, ",");    
+                }
+                //printf("Datos: %s\n", datos);
+            }
+        }
+    }while (cont8 <= 0);
+    printf("\n");
+}
 
 void feature9(FILE *fout, struct _courseInfo_t *pobj,int length){ }
 
