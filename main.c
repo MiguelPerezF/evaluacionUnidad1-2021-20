@@ -39,7 +39,7 @@ int main(int argc, char *argv[]){
 
     feature7(fout, &p1);
 
-    /*struct _courseInfo_t c1;
+    struct _courseInfo_t c1;
     struct _courseInfo_t *pstr = &c1;
     int length8 = 0;
     feature8(fin, &pstr, &length8);
@@ -49,8 +49,7 @@ int main(int argc, char *argv[]){
         printf("Nombre curso: %s\n", pstr[i].name);
         printf("Creditos curso: %d\n", pstr[i].credits);
         printf("Nota curso: %.2f\n", pstr[i].grade);
-    }*/
-    
+    }
 
     return(EXIT_SUCCESS);
 }

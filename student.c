@@ -208,11 +208,11 @@ void feature6(FILE *fin, struct Obj_t *pobj){
     fgets(buffer6, sizeof(buffer6),fin);
     char *token;
     token = strtok(buffer6, ","); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
-    /*if (token == NULL)
+    if (token == NULL)
     {
         printf("No hay elementos en el arreglo");
         return EXIT_FAILURE;
-    }*/
+    }
     char *nombre = token;
     char *token2;
     token2 = strtok(NULL,"");
@@ -233,72 +233,80 @@ void feature7(FILE *fout, struct Obj_t *pobj){
 }
 
 void feature8(FILE *fin, struct _courseInfo_t **pobj,int *length){ 
-    char buffer8[64];
+    char *buffer8[64];
     char *status8 =  NULL;
     char *token;
     char *token2;
     int nrocursos = 0;
-    char namecurso;
+    char namecurso[32];
+    int creditos;
+    float nota;
+
     int cont8 = 0; //Para controlar el ciclo que se haga solo para leer la primera linea del archivo
     char datos[32];
-    do{
-        status8 = fgets(buffer8, sizeof(buffer8),fin);
-        cont8++;
-        if(status8 != NULL){
-            //printf("f8: %s",buffer8);
-            token = strtok(buffer8, ""); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
-            if (token == NULL)
+    status8 = fgets(buffer8, sizeof(buffer8),fin);
+    
+    if(status8 != NULL){
+        //printf("f8: %s",buffer8);
+        token = strtok(buffer8, ""); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
+        if (token == NULL)
+        {
+            printf("No hay elementos en el arreglo");
+            return EXIT_FAILURE;
+        }
+        length = atoi(token); //Length es el entero leido de fin
+        nrocursos=length;
+        //printf("Length conseguido: %d", length);
+
+        struct _courseInfo_t arrcursos[nrocursos];
+        int control = 0;
+        for (int i = 1; i <= nrocursos-6; i++)
+        {
+            struct _courseInfo_t curso;
+            printf("Ingrese el curso %d: curso, creditos, nota:\n",i);
+            scanf("%s", datos);
+            printf("Datos: %s\n", datos);
+            token2 = strtok(datos, ","); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
+            if (token2 == NULL)
             {
                 printf("No hay elementos en el arreglo");
                 return EXIT_FAILURE;
             }
-            length = atoi(token);
-            nrocursos=length;
-            //printf("Length conseguido: %d", length);
-
-            struct _courseInfo_t cursos[nrocursos];
-            int control = 0;
-            for (int i = 1; i <= nrocursos; i++)
+            *namecurso = token2;
+            *curso.name = namecurso;
+            //printf("Nombre: %s\n", curso.name);
+            printf("Curso: %s\n", token2);
+            while (token2 != NULL)
             {
-                printf("Ingrese el curso %d: curso, creditos, nota:\n",i);
-                scanf("%s", datos);
-                printf("Datos: %s\n", datos);
-                token2 = strtok(datos, ","); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
-                if (token2 == NULL)
+                token2 = strtok(NULL, ",");
+                if (token2 != NULL)
                 {
-                    printf("No hay elementos en el arreglo");
-                    return EXIT_FAILURE;
-                }
-                namecurso = token2;
-                *cursos[i].name = namecurso;
-                printf("Nombre: %s\n", cursos[i].name);
-                //printf("Curso: %s\n", token2);
-                while (token2 != NULL)
-                {
-                    if (token2 != NULL)
+                    if (control == 0)
                     {
-                        if (control == 0)
-                        {
-                            cursos[i].credits = atoi(token2);
-                            printf("Creditos: %d\n", cursos[i].credits);
-                            //printf("Creditos: %d\n", atoi(token2));
-                            control++;
-                        }
-                        else{
-                            cursos[i].grade = atof(token2);
-                            printf("Nota: %.2f\n", cursos[i].grade);
-                            //printf("Nota: %.2f\n", atof(token2));
-                            control=0;
-                        }
-                        
-                        //pobj->cedula = atoi(token);
+                        creditos = atoi(token2);
+                        curso.credits = creditos;
+                        //printf("Creditos: %d\n", curso.credits);
+                        printf("Creditos: %d\n", atoi(token2));
+                        control++;
                     }
-                    token2 = strtok(NULL, ",");    
-                }
-                //printf("Datos: %s\n", datos);
+                    else{
+                        nota = atof(token2);
+                        curso.grade = nota;
+                        //printf("Nota: %.2f\n", curso.grade);
+                        printf("Nota: %.2f\n", atof(token2));
+                        control=0;
+                    }              
+                }    
             }
+            arrcursos[i] = curso;
+            //printf("Datos: %s\n", datos);
         }
-    }while (cont8 <= 0);
+        for (int i = 1; i <= nrocursos-6; i++)
+        {
+            printf("Arrcursos[%d]: %s, %d, %.2f\n", i, arrcursos[i].name,arrcursos[i].credits, arrcursos[i].grade);
+        }
+        
+    }
     printf("\n");
 }
 
