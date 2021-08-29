@@ -104,9 +104,7 @@ void feature4(FILE *fin, int **parr, int *length, char **op){
             {
                 if (token != NULL)
                 {
-                    arrint[contint] = atoi(token); //Agregarà todos menos la operacion porque no puede convertirla a entero
-                    //printf("arraux(%d) token: %s\n", i, token);
-                    //printf("arrint(%d) arreglo: %d\n", contint, arrint[contint]);
+                    arrint[contint] = atoi(token); //Agregarà todos los elementos
                 }
                 token = strtok(NULL, " ");
                 contint++; 
@@ -114,22 +112,19 @@ void feature4(FILE *fin, int **parr, int *length, char **op){
 
             for (int i = 0; i < ((sizeof(buffer4)/sizeof(buffer4[0]))); i++) //Recorre las posiciones con la operacion
             {
-                if (buffer4[i] > 64 && buffer4[i] < 123)
+                if (buffer4[i] > 64 && buffer4[i] < 123) //Que agregue posiciones al arreglo solo si son letras
                 {
                     opaux[contop] = buffer4[i];
                     contop++;
                 }
             }
+            //printf("Length: %d\n",contint-1);
 
-            /*for (int i = 0; i < sizeof(arrint)/sizeof(arrint[0]); i++)
-            {
-                parr[i] = arrint[i];
-            }*/
-            *length=contint-1; //-1 para evitar el 0 que pone por la operacion siendo el arreglo solo de enteros
+            *length=contint-1; //-1 para evitar el 0 que pone por la posicion de la operacion siendo el arreglo solo de enteros
             *parr = arrint;
             *op = opaux;
 
-            printf("Parr\n");
+            /*printf("Parr\n");
             for (int j = 0; j < contint-1; j++)
             {
                 printf("parr(%d): %d\n", j, *(*parr+j));
@@ -150,13 +145,61 @@ void feature4(FILE *fin, int **parr, int *length, char **op){
             for (int j = 0; j < 3; j++)
             {
                 printf("op(%d): %d\n", j, opaux[j]);
-            }
+            }*/
         }                  
     }while (cont4 <= 0);
     return(EXIT_SUCCESS);
 }
 
-void feature5(FILE *fout, int *parr, int length, char *op){ }
+void feature5(FILE *fout, int *parr, int length, char *op){ 
+    //printf("Lenght en f5: %d\n", length);
+    /*for (int j = 0; j < 3; j++)
+    {
+        printf("f5 op(%d): %d\n", j, op[j]);
+    }
+
+    for (int j = 0; j < length; j++)
+    {
+        printf("f5 parr(%d): %d\n", j, parr[j]);
+    }*/
+    fprintf(fout, "\n");
+    int suma = 0;
+    int min = 10000000;
+    int max = 0;
+    int resultado = 0;
+    int tstavg = 0;
+    for (int i = 0; i < length; i++)
+    {
+        if (op[0] == 97 && op[1] == 118 && op[2] == 103) //Equivalente a avg
+        {
+            //printf("Saliò AVERAGE!!!!!!!");
+            suma+=parr[i];
+            tstavg = 1;
+            //resultado se calcula aparte verificando tstavg = 1 para no ser afectado por el ciclo grande
+        }
+        if (op[0] == 109 && op[1] == 105 && op[2] == 110) //Equivalente a min
+        {
+            if (parr[i] < min)
+            {
+                min = parr[i];
+                resultado = min;
+            }
+        }
+        if (op[0] == 109 && op[1] == 97 && op[2] == 120) //Equivalente a max
+        {
+            if (parr[i] > max)
+            {
+                max = parr[i];
+                resultado = max;
+            }
+        }
+        if (tstavg == 1) //Verificar si la operacion fue average para calcular bien el resultado
+        {
+            resultado = suma/length;
+        }
+    }
+    fprintf(fout, "%d", resultado);   
+}
 
 void feature6(FILE *fin, struct Obj_t *pobj){ }
 
