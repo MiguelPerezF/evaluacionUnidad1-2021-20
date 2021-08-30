@@ -43,13 +43,14 @@ int main(int argc, char *argv[]){
     struct _courseInfo_t *pstr = &c1;
     int length8 = 0;
     feature8(fin, &pstr, &length8);
-    printf("TERMINE LA FUNCION DE FEATURE 8\n");
-    for (int i = 0; i < length8; i++)
+
+    /*for (int i = 0; i < length8; i++)
     {
         printf("Nombre curso: %s\n", pstr[i].name);
         printf("Creditos curso: %d\n", pstr[i].credits);
         printf("Nota curso: %.2f\n", pstr[i].grade);
-    }
+    }*/
+    feature9(fout, pstr, length8);
 
     return(EXIT_SUCCESS);
 }
