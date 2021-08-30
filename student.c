@@ -299,7 +299,7 @@ void feature9(FILE *fout, struct _courseInfo_t *pobj,int length){
                 //fprintf("%s, %d, %.2f\n", i, (pobj+i)->name, (pobj+i)->credits, (pobj+i)->grade);
             }
             fprintf(fout,"\n");
-            fprintf(fout, "Promedio ponderado S: ");
+            fprintf(fout, "Promedio ponderado: ");
             fprintf(fout,"%.2f", prom);   
         }
 }
