@@ -207,16 +207,16 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj,int *length){
         }
         nrocursos = atoi(token); //Length es el entero leido de fin
         *length=nrocursos;
-         printf("f8 Length conseguido: %d\n", nrocursos);
+        //printf("f8 Length conseguido: %d\n", nrocursos);
 
         struct _courseInfo_t *arrcursos = malloc(sizeof(*arrcursos));
         int control = 0;
         for (int i = 0; i < nrocursos; i++)
         {
             struct _courseInfo_t curso;
-            printf("Ingrese el curso %d: curso, creditos, nota:\n",i);
+            printf("Ingrese el curso %d: curso, creditos, nota:\n",i+1);
             scanf("%s", datos);
-            printf("Datos: %s\n", datos);
+            //printf("Datos: %s\n", datos);
             token2 = strtok(datos, ","); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
             if (token2 == NULL)
             {
@@ -225,7 +225,7 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj,int *length){
             }
             strcpy(curso.name,token2);
             //printf("Nombre: %s\n", curso.name);
-            printf("Curso: %s\n", token2);
+            //printf("Curso: %s\n", token2);
             while (token2 != NULL)
             {
                 token2 = strtok(NULL, ",");
@@ -236,14 +236,14 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj,int *length){
                         creditos = atoi(token2);
                         curso.credits = creditos;
                         //printf("Creditos: %d\n", curso.credits);
-                        printf("Creditos: %d\n", atoi(token2));
+                        //printf("Creditos: %d\n", atoi(token2));
                         control++;
                     }
                     else{
                         nota = atof(token2);
                         curso.grade = nota;
                         ////printf("Nota: %.2f\n", curso.grade);
-                        printf("Nota: %.2f\n", atof(token2));
+                        //printf("Nota: %.2f\n", atof(token2));
                         control=0;
                     }              
                 }    
@@ -252,49 +252,54 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj,int *length){
         }
         *pobj=arrcursos;
 
-        for (int i = 0; i < nrocursos; i++)
+        /*for (int i = 0; i < nrocursos; i++)
         {
-            printf("arrcursos[%d]: %s, %d, %.2f\n",i, (arrcursos+i)->name, (arrcursos+i)->credits, (arrcursos+i)->grade);
+            printf("arrcursos[%d]: %s, %d, %.2f\n",i+1, (arrcursos+i)->name, (arrcursos+i)->credits, (arrcursos+i)->grade);
             //printf("Arrcursos[%d]: %s, %d, %.2f\n", i+1, arrcursos[i].name,arrcursos[i].credits, arrcursos[i].grade);
-        }  
+        }*/  
     }
     printf("\n");
 }
 
 void feature9(FILE *fout, struct _courseInfo_t *pobj,int length){ 
-    printf("f9 length: %d\n", length);
+    //printf("f9 length: %d\n", length);
     float suma = 0;
     int sumacrd = 0;
     float prom = 0;
     char respuesta[4];
     for (int i = 0; i < length; i++)
         {
-            printf("f9 Arrcursos[%d]: %s, %d, %.2f\n", i, (pobj+i)->name, (pobj+i)->credits, (pobj+i)->grade);
+            //printf("f9 Arrcursos[%d]: %s, %d, %.2f\n", i, (pobj+i)->name, (pobj+i)->credits, (pobj+i)->grade);
             suma+=((pobj+i)->grade)*(pobj+i)->credits;
             sumacrd+=(pobj+i)->credits;
         }
         prom = suma/sumacrd;
 
-        printf("Promedio: %.2f\n", prom);
+        //printf("Promedio: %.2f\n", prom);
 
         printf("Deseas almacenar la informacion (s) o (n)\n");
         scanf("%s", respuesta);
-        printf("Respuesta: %s\n", respuesta);
-        if (respuesta == 110 || respuesta == 78) //n o N
+        //printf("Respuesta: %s\n", respuesta);
+        if (respuesta[0] == 110 || respuesta[0] == 78) //n o N
         {
-            printf("Respuesta: %s", respuesta);
             fprintf(fout,"\n");
-            fprintf(fout,"%d", prom);
+            fprintf(fout,"%s","Promedio ponderado: ");
+            fprintf(fout,"%.2f", prom);
         }
-        if (respuesta == 115 || respuesta == 83) //s o S
+        if (respuesta[0] == 115 || respuesta[0] == 83) //s o S
         {
-            printf("Respuesta: %s", respuesta);
-            for (int i = 0; i < length-6; i++)
+            for (int i = 0; i < length; i++)
             {
-                fprintf("%s, %d, %.2f\n", i, (pobj+i)->name, (pobj+i)->credits, (pobj+i)->grade);
+                fprintf(fout, "\n");
+                fprintf(fout,"%s",(pobj+i)->name);
+                fprintf(fout, ", ");
+                fprintf(fout,"%d",(pobj+i)->credits);
+                fprintf(fout, ", ");
+                fprintf(fout,"%.2f",(pobj+i)->grade);
+                //fprintf("%s, %d, %.2f\n", i, (pobj+i)->name, (pobj+i)->credits, (pobj+i)->grade);
             }
             fprintf(fout,"\n");
-            fprintf(fout, "Promedio ponderado: ");
+            fprintf(fout, "Promedio ponderado S: ");
             fprintf(fout,"%.2f", prom);   
         }
 }
