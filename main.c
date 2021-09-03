@@ -32,17 +32,21 @@ int main(int argc, char *argv[]){
     feature4(fin, &parr, &length, &op);
     feature5(fout, parr, length, op);
 
+    free(parr);
+    free(op);
+
     struct Obj_t p1;
     feature6(fin, &p1);
-    //printf("main Nombre: %s\n", p1.nombre);
-    //printf("main Cedula: %d\n", p1.cedula);
+    printf("main Nombre: %s\n", p1.nombre);
+    printf("main Cedula: %d\n", p1.cedula);
 
     feature7(fout, &p1);
+    //Hasta el 7 no hay problemas
 
-    struct _courseInfo_t c1;
-    struct _courseInfo_t *pstr = &c1;
+    struct _courseInfo_t *c1;
+    //struct _courseInfo_t *pstr = &c1;
     int length8 = 0;
-    feature8(fin, &pstr, &length8);
+    feature8(fin, &c1, &length8);
 
     /*for (int i = 0; i < length8; i++)
     {
@@ -50,7 +54,10 @@ int main(int argc, char *argv[]){
         printf("Creditos curso: %d\n", pstr[i].credits);
         printf("Nota curso: %.2f\n", pstr[i].grade);
     }*/
-    feature9(fout, pstr, length8);
+    //feature9(fout, pstr, length8);
+
+    fclose(fin);
+    fclose(fout);
 
     return(EXIT_SUCCESS);
 }

@@ -76,15 +76,12 @@ void feature4(FILE *fin, int **parr, int *length, char **op){
     char buffer4[128];
     char *token;
     char *status4 =  NULL;
-    int arrint[128];
-    char opaux[32];
-    int cont4 = 0; //Para controlar el ciclo que se haga solo para leer la primera linea del archivo
+    int *arrint = malloc(sizeof(int)*64);
+    char *opaux = malloc(sizeof(char)*32);
     int contop = 0;
     int contint = 0;
     status4 = fgets(buffer4, sizeof(buffer4),fin);
     //printf("buffer: %s\n", buffer4);
-        
-    cont4++;
     if(status4 != NULL){
         token = strtok(buffer4, " "); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
         if (token == NULL)
@@ -148,7 +145,7 @@ void feature5(FILE *fout, int *parr, int length, char *op){
                 resultado = max;
             }
         }
-        if (tstavg == 1) //Verificar si la operacion fue average para calcular bien el resultado
+        if (tstavg == 1) //Verificar si la operacion fue average para calcular bien el resultado al terminar el ciclo
         {
             resultado = suma/length;
         }
@@ -158,7 +155,7 @@ void feature5(FILE *fout, int *parr, int length, char *op){
 
 void feature6(FILE *fin, struct Obj_t *pobj){ 
 
-    char *buffer6[128];
+    char buffer6[128];
     fgets(buffer6, sizeof(buffer6),fin);
     char *token;
     token = strtok(buffer6, ","); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
@@ -192,9 +189,8 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj,int *length){
     char namecurso[32];
     int creditos;
     float nota;
-
-    int cont8 = 0; //Para controlar el ciclo que se haga solo para leer la primera linea del archivo
     char datos[256];
+
     status8 = fgets(buffer8, sizeof(buffer8),fin);
     
     if(status8 != NULL){
@@ -209,7 +205,8 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj,int *length){
         *length=nrocursos;
         //printf("f8 Length conseguido: %d\n", nrocursos);
 
-        struct _courseInfo_t *arrcursos = malloc(sizeof(*arrcursos));
+        struct _courseInfo_t *arrcursos = malloc(sizeof(*arrcursos)*(*length));
+        
         int control = 0;
         for (int i = 0; i < nrocursos; i++)
         {
@@ -282,12 +279,14 @@ void feature9(FILE *fout, struct _courseInfo_t *pobj,int length){
         //printf("Respuesta: %s\n", respuesta);
         if (respuesta[0] == 110 || respuesta[0] == 78) //n o N
         {
+            printf("Me metì a N o n\n");
             fprintf(fout,"\n");
             fprintf(fout,"%s","Promedio ponderado: ");
             fprintf(fout,"%.2f", prom);
         }
         if (respuesta[0] == 115 || respuesta[0] == 83) //s o S
         {
+            printf("Me metì a S o s\n");
             for (int i = 0; i < length; i++)
             {
                 fprintf(fout, "\n");
