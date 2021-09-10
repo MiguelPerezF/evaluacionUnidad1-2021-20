@@ -73,13 +73,16 @@ void feature3(FILE *fin, FILE *fout){
 }
 
 void feature4(FILE *fin, int **parr, int *length, char **op){ 
-    char buffer4[128];
+    char buffer4[64];
     char *token;
     char *status4 =  NULL;
     int *arrint = malloc(sizeof(int)*64);
     char *opaux = malloc(sizeof(char)*32);
     int contop = 0;
     int contint = 0;
+    int contaux = 0;
+    int posop = 0;
+
     status4 = fgets(buffer4, sizeof(buffer4),fin);
     //printf("buffer: %s\n", buffer4);
     if(status4 != NULL){
@@ -88,6 +91,21 @@ void feature4(FILE *fin, int **parr, int *length, char **op){
         {
             printf("No hay elementos en el arreglo");
             EXIT_FAILURE;
+        }
+
+        for (int i = 0; i < sizeof(buffer4)/sizeof(buffer4[0]); i++) //Voy a averiguar desde que posicion en el arreglo empieza la letra que indica la operacion
+        {
+            if (buffer4[i] != 10) //Diferente del salto de linea
+            {
+                if (buffer4[i] < 64 || buffer4[i] > 123) //contara todo lo que NO sea una letra hasta el salto de linea
+                {
+                    contaux++;
+                }
+            }
+            else
+            {
+                break; //Para no seguir en posiciones innecesarias
+            }   
         }
             
         while (token != NULL)
@@ -100,13 +118,29 @@ void feature4(FILE *fin, int **parr, int *length, char **op){
             contint++; 
         }
 
-        for (int i = 0; i < ((sizeof(buffer4)/sizeof(buffer4[0]))); i++) //Recorre las posiciones con la operacion
+        for (int i = contaux; i < contaux+3; i++) //Recorre las posiciones con la operacion
         {
             if (buffer4[i] > 64 && buffer4[i] < 123) //Que agregue posiciones al arreglo solo si son letras
             {
                 opaux[contop] = buffer4[i];
                 contop++;
+                //printf("Contador: %d\n", contop);
             }
+        }
+
+        for (int i = 0; i < contint-1; i++) //Recorre las posiciones con los enteros
+        {
+            //printf("Contaux: %d\n", i);
+            printf("arrint[%d]: %d\n", i, arrint[i]);
+
+        }
+
+        for (int i = contaux; i < contaux+3; i++) //Recorre las posiciones con la operacion
+        {
+            //printf("Contaux: %d\n", i);
+            printf("arrop[%d]: %d\n", posop, opaux[posop]);
+            posop++;
+
         }
         *length=contint-1; //-1 para evitar el 0 que pone por la posicion de la operacion siendo el arreglo solo de enteros
         *parr = arrint;
@@ -155,7 +189,7 @@ void feature5(FILE *fout, int *parr, int length, char *op){
 
 void feature6(FILE *fin, struct Obj_t *pobj){ 
 
-    char buffer6[128];
+    char buffer6[64];
     fgets(buffer6, sizeof(buffer6),fin);
     char *token;
     token = strtok(buffer6, ","); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
@@ -170,7 +204,7 @@ void feature6(FILE *fin, struct Obj_t *pobj){
     int ced = atoi(token2);
             
     pobj->nombre = nombre;
-    pobj->cedula = ced;                   
+    pobj->cedula = ced;                  
 }
 
 void feature7(FILE *fout, struct Obj_t *pobj){
@@ -205,7 +239,7 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj,int *length){
         *length=nrocursos;
         //printf("f8 Length conseguido: %d\n", nrocursos);
 
-        struct _courseInfo_t *arrcursos = malloc(sizeof(*arrcursos)*(*length));
+        struct _courseInfo_t *arrcursos = malloc(sizeof(struct _courseInfo_t)*(nrocursos));
         
         int control = 0;
         for (int i = 0; i < nrocursos; i++)

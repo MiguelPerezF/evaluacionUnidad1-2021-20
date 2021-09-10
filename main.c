@@ -41,12 +41,12 @@ int main(int argc, char *argv[]){
     printf("main Cedula: %d\n", p1.cedula);
 
     feature7(fout, &p1);
-    //Hasta el 7 no hay problemas
+    //Hasta el 7 no hay problemas, pero revisar buffer en feature 6
 
     struct _courseInfo_t *c1;
     //struct _courseInfo_t *pstr = &c1;
     int length8 = 0;
-    feature8(fin, &c1, &length8);
+    //feature8(fin, &c1, &length8);
 
     /*for (int i = 0; i < length8; i++)
     {
