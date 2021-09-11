@@ -39,9 +39,9 @@ int main(int argc, char *argv[]){
     feature6(fin, &p1);
     printf("main Nombre: %s\n", p1.nombre);
     printf("main Cedula: %d\n", p1.cedula);
-
     feature7(fout, &p1);
-    //Hasta el 7 no hay problemas, pero revisar buffer en feature 6
+
+    //feature7(fout, &p1);
 
     struct _courseInfo_t *c1;
     //struct _courseInfo_t *pstr = &c1;
