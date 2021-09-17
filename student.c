@@ -5,7 +5,6 @@
 
 void feature1(FILE *fin, FILE *fout)
 {
-
     char buffer[64];
     char *status = NULL;
 
@@ -15,7 +14,6 @@ void feature1(FILE *fin, FILE *fout)
         //printf("%s",buffer);
         fputs(buffer, fout);
     }
-    //destroy_array(buffer);
 }
 
 void feature2(FILE *fin, FILE *fout)
@@ -33,12 +31,9 @@ void feature2(FILE *fin, FILE *fout)
         {
             posaux++;
         }
-        //printf("posaux: %d\n", posaux);
-
-        for (int i = posaux; i >= 0; i--)
+        for (int i = posaux; i >= 0; i--) //para llenar el arreglo inversamente
         {
             buffinv[posaux - i -1] = buffer2[i];
-            //printf("Array inverso en posicion %ld: %d\n", (strlen(buffer2) - i), buffer2[i]);
             if (i == posaux)
             {
                 buffinv[i] = salto; //agrego el salto de lìnea en el arreglo para que feature3 escriba en la siguiente linea
@@ -91,7 +86,6 @@ void feature4(FILE *fin, int **parr, int *length, char **op)
     int posop = 0;
 
     status4 = fgets(buffer4, sizeof(buffer4), fin);
-    //printf("buffer: %s\n", buffer4);
     if (status4 != NULL)
     {
         token = strtok(buffer4, " "); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
@@ -132,22 +126,8 @@ void feature4(FILE *fin, int **parr, int *length, char **op)
             {
                 opaux[contop] = buffer4[i];
                 contop++;
-                //printf("Contador: %d\n", contop);
             }
         }
-
-        /*for (int i = 0; i < contint - 1; i++) //Recorre las posiciones con los enteros
-        {
-            //printf("Contaux: %d\n", i);
-            printf("arrint[%d]: %d\n", i, arrint[i]);
-        }*/
-
-        /*for (int i = contaux; i < contaux + 3; i++) //Recorre las posiciones con la operacion
-        {
-            //printf("Contaux: %d\n", i);
-            printf("arrop[%d]: %d\n", posop, opaux[posop]);
-            posop++;
-        }*/
         *length = contint - 1; //-1 para evitar el 0 que pone por la posicion de la operacion siendo el arreglo solo de enteros
         *parr = arrint;
         *op = opaux;
@@ -186,7 +166,7 @@ void feature5(FILE *fout, int *parr, int length, char *op)
                 resultado = max;
             }
         }
-        if (tstavg == 1) //Verificar si la operacion fue average para calcular bien el resultado al terminar el ciclo
+        if (tstavg == 1) //Verificar si la operacion fue average para calcular bien el resultado despues de haber terminado el ciclo
         {
             resultado = suma / length;
         }
@@ -206,7 +186,8 @@ void feature6(FILE *fin, struct Obj_t *pobj)
         printf("No hay elementos en el arreglo");
         EXIT_FAILURE;
     }
-    char *nombre = token;
+    char *nombre = malloc(sizeof(char) * (strlen(token)+1));
+    strncpy(nombre,token,(strlen(token)+1)); //+1 para que agregue un 0 automaticamente despues de toda la cadena (strlen(token))
     char *token2;
     token2 = strtok(NULL, "");
     int ced = atoi(token2);
@@ -218,10 +199,8 @@ void feature6(FILE *fin, struct Obj_t *pobj)
 void feature7(FILE *fout, struct Obj_t *pobj)
 {
     fprintf(fout, "\n");
-    printf("Cedula F7: %d\n", pobj->cedula);
     fprintf(fout, "%d", pobj->cedula);
     fprintf(fout, ", ");
-    printf("Nombre F7: %s\n", pobj->nombre);
     fprintf(fout, "%s", pobj->nombre);
 }
 
@@ -235,13 +214,12 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj, int *length)
     char namecurso[32];
     int creditos;
     float nota;
-    char datos[256];
+    char datos[128];
 
     status8 = fgets(buffer8, sizeof(buffer8), fin);
 
     if (status8 != NULL)
     {
-        //printf("f8: %s",buffer8);
         token = strtok(buffer8, ""); //strtok es para partir una cadena de caracteres en subcadenas indicando el separador
         if (token == NULL)
         {
@@ -250,7 +228,6 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj, int *length)
         }
         nrocursos = atoi(token); //Length es el entero leido de fin
         *length = nrocursos;
-        //printf("f8 Length conseguido: %d\n", nrocursos);
 
         struct _courseInfo_t *arrcursos = malloc(sizeof(struct _courseInfo_t) * (nrocursos));
 
@@ -268,8 +245,6 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj, int *length)
                 EXIT_FAILURE;
             }
             strcpy(curso.name, token2);
-            //printf("Nombre: %s\n", curso.name);
-            //printf("Curso: %s\n", token2);
             while (token2 != NULL)
             {
                 token2 = strtok(NULL, ",");
@@ -279,16 +254,12 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj, int *length)
                     {
                         creditos = atoi(token2);
                         curso.credits = creditos;
-                        //printf("Creditos: %d\n", curso.credits);
-                        //printf("Creditos: %d\n", atoi(token2));
                         control++;
                     }
                     else
                     {
                         nota = atof(token2);
                         curso.grade = nota;
-                        ////printf("Nota: %.2f\n", curso.grade);
-                        //printf("Nota: %.2f\n", atof(token2));
                         control = 0;
                     }
                 }
@@ -296,19 +267,12 @@ void feature8(FILE *fin, struct _courseInfo_t **pobj, int *length)
             arrcursos[i] = curso;
         }
         *pobj = arrcursos;
-
-        /*for (int i = 0; i < nrocursos; i++)
-        {
-            printf("arrcursos[%d]: %s, %d, %.2f\n",i+1, (arrcursos+i)->name, (arrcursos+i)->credits, (arrcursos+i)->grade);
-            //printf("Arrcursos[%d]: %s, %d, %.2f\n", i+1, arrcursos[i].name,arrcursos[i].credits, arrcursos[i].grade);
-        }*/
     }
     printf("\n");
 }
 
 void feature9(FILE *fout, struct _courseInfo_t *pobj, int length)
 {
-    //printf("f9 length: %d\n", length);
     float suma = 0;
     int sumacrd = 0;
     float prom = 0;
@@ -321,21 +285,17 @@ void feature9(FILE *fout, struct _courseInfo_t *pobj, int length)
     }
     prom = suma / sumacrd;
 
-    //printf("Promedio: %.2f\n", prom);
-
     printf("Deseas almacenar la informacion (s) o (n)\n");
     scanf("%s", respuesta);
-    //printf("Respuesta: %s\n", respuesta);
+
     if (respuesta[0] == 110 || respuesta[0] == 78) //n o N
     {
-        printf("Me metì a N o n\n");
         fprintf(fout, "\n");
         fprintf(fout, "%s", "Promedio ponderado: ");
         fprintf(fout, "%.2f", prom);
     }
     if (respuesta[0] == 115 || respuesta[0] == 83) //s o S
     {
-        printf("Me metì a S o s\n");
         for (int i = 0; i < length; i++)
         {
             fprintf(fout, "\n");
@@ -350,13 +310,4 @@ void feature9(FILE *fout, struct _courseInfo_t *pobj, int length)
         fprintf(fout, "Promedio ponderado: ");
         fprintf(fout, "%.2f", prom);
     }
-}
-
-char *create_array(int size)
-{
-    return (char *)malloc(sizeof(int) * size);
-}
-void destroy_array(char *this)
-{
-    free(this);
 }
